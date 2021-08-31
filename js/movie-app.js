@@ -12,7 +12,7 @@ $(document).ready( function(){
     //!!!!need this to fetch data , all info from json move file on glitch
     const fetchData = () => {
         mainRow.toggle('hidden')
-
+        if($)
         fetch(moviesURL)
             .then(res => res.json())
             .then(data => {
@@ -23,23 +23,20 @@ $(document).ready( function(){
             .catch(error => console.error(error))
     }
 
-    const deleteMovie = (id) =>{
+    const deleteMovie = async (id) =>{
         let options = {
             method: "DELETE",
             headers: {
                 'Content-Type' : 'application/json',
             }
         };
-        $('#loading').toggle('hidden');
+        //$('#loading').toggle('hidden');
         fetch(`${moviesURL}/${id}`, options)
-
-        // const asyncFoo = async () => {
-        //     await new Promise((resolve) => setTimeout(resolve, 2000));
-        //     console.log('nice');
-        //     console.log('way better');
-        //     fetchData()
-        // }
+            .then(fetchData());
+        //await new Promise((resolve) => setTimeout(resolve, 2500));
+        //fetchData();
     }
+
 
     const editMovie = (id, newBodyObject) =>{
         let options = {
@@ -57,22 +54,20 @@ $(document).ready( function(){
             //.then(data => console.log(data))
             .catch(error => console.log(error))
     }
-    const addMovie = () =>{
+    const addMovie = async (title, rating) =>{
         let options = {
             method: "POST",
             headers: {
                 'Content-Type' : 'application/json',
             },
             body: JSON.stringify({
-                title: "Shaun of the Dead",
-                rating: 4,
-                id: 8
+                title: title,
+                rating: rating
             })
         };
-        $('#loading').toggle('hidden');
         fetch(moviesURL, options);
+        await new Promise((resolve) => setTimeout(resolve, 2500));
         fetchData();
-
     }
 
     //!!!!!renders onto cards
@@ -82,26 +77,36 @@ $(document).ready( function(){
         createMovie(modelHTML)
         for(let obj of data) {
             mainHTML += `<div>
-                                <div class="card" style="width: 18rem;">
-                                       <div class="info${obj.id} "><!-- sset to hidden to hide cards along with const loading = $('.loading') at top-->
-                                            <div class="card-body">
-                                                <h5>${obj.title}</h5>
-                                                <p>Rating: ${obj.rating}</p>
-                                                <button class="edit">Edit</button>
-                                                <button class="delete" id="${obj.id}">Delete</button>
-                                            </div>
-                                      </div>
-                                </div>
-                          </div>`
+                            <div class="card" style="width: 18rem;">
+                               <div class="info${obj.id} "><!-- sset to hidden to hide cards along with const loading = $('.loading') at top-->
+                                   <div class="card-body">
+                                        <h5>${obj.title}</h5>
+                                        <p>Rating: ${obj.rating}</p>
+                                        <button class="delete" id="${obj.id}">Delete</button>
+                                        <button class="edit">Edit</button>
+                                        <form class="editForm">
+                                            Movie Title: <input type="text" class="title">
+                                            Movie Rating: <input type="text" class="rating">
+                                        </form>     
+                                    </div>
+                               </div>
+                            </div>
+                      </div>`
         }
         mainRow.html(mainHTML)
 
     }
 
     //Listeners for buttons
+    $("#addMovieSubmission").on('click', () =>{
+        addMovie($("#title").val(), $("#rating").val())
+    });
+
     $(document).click(function(e){
         if($(e.target).hasClass('delete')){
             deleteMovie(e.target.id);
+        } else if($(e.target).hasClass('edit')){
+
         }
     });
 
