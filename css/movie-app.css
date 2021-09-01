@@ -1,6 +1,11 @@
-
+.main-row{
+    /*visibility: hidden;*/
+}
 
 #loading{
     font-size: 10rem;
-    visibility: hidden;
+
+}
+.editForm{
+    display: none;
 }

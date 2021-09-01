@@ -11,15 +11,14 @@ $(document).ready( function(){
 
     //!!!!need this to fetch data , all info from json move file on glitch
     const fetchData = () => {
-        mainRow.toggle('hidden')
-        if($)
+
         fetch(moviesURL)
             .then(res => res.json())
             .then(data => {
-                $('#loading').toggle('hidden')
                 return renderHTML(data);
             })
-            .then(mainRow.toggle('hidden'))
+            .then(mainRow.toggle('visible'))
+            .then($('#loading').toggle())
             .catch(error => console.error(error))
     }
 
@@ -32,27 +31,34 @@ $(document).ready( function(){
         };
         //$('#loading').toggle('hidden');
         fetch(`${moviesURL}/${id}`, options)
-            .then(fetchData());
-        //await new Promise((resolve) => setTimeout(resolve, 2500));
-        //fetchData();
+            .catch(error => console.log(error));
+        $('#loading').toggle();
+        mainRow.toggle('hidden');
+            //.then(fetchData());
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        fetchData();
     }
 
 
-    const editMovie = (id, newBodyObject) =>{
+    const editMovie = async (id, title, rating) =>{
         let options = {
             method: "PUT",
             headers: {
                 'Content-Type' : 'application/json',
             },
             body: JSON.stringify({
-                title: "The Room",
-                rating: 0,
+                title: title,
+                rating: rating,
                 id: id
             })
         };
         fetch(`${moviesURL}/${id}`, options)
             //.then(data => console.log(data))
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
+        $('#loading').toggle();
+        mainRow.toggle('hidden');
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        fetchData();
     }
     const addMovie = async (title, rating) =>{
         let options = {
@@ -66,6 +72,8 @@ $(document).ready( function(){
             })
         };
         fetch(moviesURL, options);
+        $('#loading').toggle();
+        mainRow.toggle('hidden');
         await new Promise((resolve) => setTimeout(resolve, 2500));
         fetchData();
     }
@@ -85,8 +93,18 @@ $(document).ready( function(){
                                         <button class="delete" id="${obj.id}">Delete</button>
                                         <button class="edit">Edit</button>
                                         <form class="editForm">
-                                            Movie Title: <input type="text" class="title">
-                                            Movie Rating: <input type="text" class="rating">
+                                            <button class="editSubmit" idValue="${obj.id}">Submit</button>
+                                            <button class="closeForm">X</button>
+                                            <br>
+                                            Title: <input type="text" class="title">
+                                            Rating: <select name="rating" class="rating">
+                                                          <option value="1">1</option>
+                                                          <option value="2">2</option>
+                                                          <option value="3">3</option>
+                                                          <option value="4">4</option>
+                                                          <option value="5">5</option>
+                                                    </select>
+                                            
                                         </form>     
                                     </div>
                                </div>
@@ -98,15 +116,28 @@ $(document).ready( function(){
     }
 
     //Listeners for buttons
-    $("#addMovieSubmission").on('click', () =>{
+    $("#addMovieSubmission").on('click', (e) =>{
+        e.preventDefault();
         addMovie($("#title").val(), $("#rating").val())
+        $("#title").val('');
+        $("#rating").val('');
     });
 
     $(document).click(function(e){
         if($(e.target).hasClass('delete')){
+            e.preventDefault();
             deleteMovie(e.target.id);
         } else if($(e.target).hasClass('edit')){
-
+            e.target.nextElementSibling.style.display = 'inline';
+        } else if($(e.target).hasClass('editSubmit')){
+            e.preventDefault();
+            editMovie(e.target.getAttribute("idValue"),
+                e.target.nextElementSibling.nextElementSibling.nextElementSibling.value,
+                e.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value
+            );
+        } else if($(e.target).hasClass("closeForm")){
+            e.preventDefault();
+            e.target.parentElement.style.display = 'none';
         }
     });
 
@@ -117,7 +148,7 @@ $(document).ready( function(){
     }
 
 
-
+    mainRow.toggle('hidden');
     fetchData();
     //setTimeout(addMovie(), 5000)
     //setTimeout(deleteMovie(8), 15000);
