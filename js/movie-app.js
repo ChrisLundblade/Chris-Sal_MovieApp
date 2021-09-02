@@ -90,11 +90,12 @@ $(document).ready( function(){
                                    <div class="card-body">
                                         <h5>${obj.title}</h5>
                                         <p>Rating: ${obj.rating}</p>
-                                        <button class="delete" id="${obj.id}">Delete</button>
-                                        <button class="edit">Edit</button>
+                                        <button class="delete btn btn-secondary" id="${obj.id}">Delete</button>
+                                        <button class="edit btn btn-secondary">Edit</button>
                                         <form class="editForm">
-                                            <button class="editSubmit" idValue="${obj.id}">Submit</button>
-                                            <button class="closeForm">X</button>
+                                            <button class="editSubmit btn btn-secondary" idValue="${obj.id}">Submit</button>
+                                            
+                                            <button class="closeForm btn btn-secondary" >Close</button>
                                             <br>
                                             Title: <input type="text" class="title">
                                             Rating: <select name="rating" class="rating">
@@ -128,7 +129,7 @@ $(document).ready( function(){
             e.preventDefault();
             deleteMovie(e.target.id);
         } else if($(e.target).hasClass('edit')){
-            e.target.nextElementSibling.style.display = 'inline';
+            e.target.nextElementSibling.style.display = 'block';
         } else if($(e.target).hasClass('editSubmit')){
             e.preventDefault();
             editMovie(e.target.getAttribute("idValue"),

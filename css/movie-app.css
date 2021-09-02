@@ -4,8 +4,74 @@
 
 #loading{
     font-size: 10rem;
+    /*background-image: url("/img/movie.jpeg");*/
 
+
+    color: black;
+    font-family: "Arial";
+     overflow: hidden;
+    width: 30em;
+    /* added animation property to show the character one at a time*/
+    animation: type 8s steps(60, end);
 }
+
+
+@keyframes type{
+    from {
+        width: 0;
+    }
+}
+
+
 .editForm{
     display: none;
+
+}
+
+.navbar{
+    background : #de541e;
+    /*background-image: url("/img/movie.jpeg");*/
+    color:white;
+
+}
+
+
+input,select{
+
+    border-radius: 5px;
+    margin:.25rem;
+    /*margin-left: .25rem;*/
+    /*margin-right: .25rem;*/
+}
+
+
+body{
+    background : gray;
+    background-image: url("/img/movie4.jpeg"  );
+    background-size: cover;
+
+}
+
+
+.row{
+    margin-right: 0;
+    margin-left: 0;
+}
+.card{
+background : #d6d6b1;
+    border-radius: 20px;
+margin : 15px;
+    box-shadow: 12px 12px 2px 1px rgba(0, 3, 5, 0.42);
+}
+
+button{
+
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+
+   background: #3f3f37;
+
+
+
+
 }

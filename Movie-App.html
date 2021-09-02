@@ -12,13 +12,16 @@
     <link rel="stylesheet" href="css/movie-app.css">
 </head>
 <body>
+
+
+
+<nav class='navbar navbar-light'>
     <header>
         <h1>
-            Here are some movies, I guess?
-        </h1>
+Movie App        </h1>
     </header>
     <form id="addMovie">
-        Movie Title: <input type="text" id="title">
+        Movie Title: <input type="text"  id="title">
         Movie Rating: <select name="rating" id="rating">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -26,8 +29,11 @@
         <option value="4">4</option>
         <option value="5">5</option>
     </select>
-        <button id="addMovieSubmission">Submit</button>
+        <button id="addMovieSubmission" class="btn btn-secondary">Submit</button>
     </form>
+
+
+</nav>
 
     <div id="loading">LOADING...</div>
 
