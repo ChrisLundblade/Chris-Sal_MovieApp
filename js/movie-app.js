@@ -30,10 +30,12 @@ $(document).ready( function(){
             }
         };
         //$('#loading').toggle('hidden');
+        mainRow.toggle('hidden');
+        $('#loading').toggle();
         fetch(`${moviesURL}/${id}`, options)
             .catch(error => console.log(error));
-        $('#loading').toggle();
-        mainRow.toggle('hidden');
+
+
             //.then(fetchData());
         await new Promise((resolve) => setTimeout(resolve, 2500));
         fetchData();
@@ -55,6 +57,8 @@ $(document).ready( function(){
         fetch(`${moviesURL}/${id}`, options)
             //.then(data => console.log(data))
             .catch(error => console.log(error));
+
+
         $('#loading').toggle();
         mainRow.toggle('hidden');
         await new Promise((resolve) => setTimeout(resolve, 2500));
@@ -72,8 +76,9 @@ $(document).ready( function(){
             })
         };
         fetch(moviesURL, options);
-        $('#loading').toggle();
+
         mainRow.toggle('hidden');
+        $('#loading').toggle();
         await new Promise((resolve) => setTimeout(resolve, 2500));
         fetchData();
     }
