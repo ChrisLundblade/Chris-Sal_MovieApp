@@ -3,11 +3,10 @@ $(document).ready( function(){
 
     const moviesURL = "https://handsome-zany-staircase.glitch.me/movies";
     //const moviesURL = "https://ruddy-imaginary-peony.glitch.me/movies";
-    const mainRow = $('.main-row')//in html file
+    const mainRow = $('.main-row');//in html file
+    const loadingDiv = $('#loading');
     //in html and at bottom
     //at bottom creatmodel function
-
-
 
     //!!!!need this to fetch data , all info from json move file on glitch
     const fetchData = () => {
@@ -17,8 +16,9 @@ $(document).ready( function(){
             .then(data => {
                 return renderHTML(data);
             })
-            .then(mainRow.toggle('visible'))
-            .then($('#loading').toggle())
+            // .then(mainRow.toggle('visible'))
+            // .then($('#loading').toggle())
+            .then(loadingDiv.toggle("fast",function (){mainRow.toggle("slow")}))
             .catch(error => console.error(error))
     }
 
@@ -30,14 +30,13 @@ $(document).ready( function(){
             }
         };
         //$('#loading').toggle('hidden');
-        mainRow.toggle('hidden');
-        $('#loading').toggle();
+        //mainRow.toggle('hidden');
+        mainRow.toggle("fast",function (){loadingDiv.toggle("slow")});
         fetch(`${moviesURL}/${id}`, options)
             .catch(error => console.log(error));
 
-
             //.then(fetchData());
-        await new Promise((resolve) => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         fetchData();
     }
 
@@ -54,13 +53,13 @@ $(document).ready( function(){
                 id: id
             })
         };
+        mainRow.toggle("fast");
+        loadingDiv.toggle("slow");
+
         fetch(`${moviesURL}/${id}`, options)
             //.then(data => console.log(data))
             .catch(error => console.log(error));
 
-
-        $('#loading').toggle();
-        mainRow.toggle('hidden');
         await new Promise((resolve) => setTimeout(resolve, 2500));
         fetchData();
     }
@@ -75,18 +74,18 @@ $(document).ready( function(){
                 rating: rating
             })
         };
+        mainRow.toggle("fast");
+        loadingDiv.toggle("fast");
         fetch(moviesURL, options);
 
-        mainRow.toggle('hidden');
-        $('#loading').toggle();
         await new Promise((resolve) => setTimeout(resolve, 2500));
         fetchData();
     }
 
     //!!!!!renders onto cards
     const renderHTML = data => {
-        let mainHTML = ""
-        let modelHTML = ""
+        let mainHTML = "";
+        let modelHTML = "";
         createMovie(modelHTML)
         for(let obj of data) {
             mainHTML += `<div>
@@ -109,15 +108,14 @@ $(document).ready( function(){
                                                           <option value="3">3</option>
                                                           <option value="4">4</option>
                                                           <option value="5">5</option>
-                                                    </select>
-                                            
+                                                    </select>                                            
                                         </form>     
                                     </div>
                                </div>
                             </div>
                       </div>`
         }
-        mainRow.html(mainHTML)
+        mainRow.html(mainHTML);
 
     }
 
@@ -150,25 +148,20 @@ $(document).ready( function(){
     //card popup
     const createMovie = data => {
 
-        $('.model-container').html(data)
+        $('.model-container').html(data);
     }
 
-
-    mainRow.toggle('hidden');
+    mainRow.toggle("fast");
     fetchData();
     //setTimeout(addMovie(), 5000)
     //setTimeout(deleteMovie(8), 15000);
     //editMovie(2, {});
 
     //setTimeout(addMovie(), 30000)
-
 })
 
 
 // <img id="movie${obj.id}" src="${obj.poster}" alt="Movie Poster" >
-
-
-
 
 //
 // [
