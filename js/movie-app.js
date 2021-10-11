@@ -92,6 +92,9 @@ $(document).ready( function(){
                             <div class="card" style="width: 18rem;">
                                <div class="info${obj.id} "><!-- sset to hidden to hide cards along with const loading = $('.loading') at top-->
                                    <div class="card-body">
+                                        <div class = "poster">
+                                            <img src="img/The-Fellowship-of-the-Ring-poster.jpg">
+                                        </div> <!-- Movie poster to go in here-->
                                         <h5>${obj.title}</h5>
                                         <p>Rating: ${obj.rating}</p>
                                         <button class="delete btn btn-secondary" id="${obj.id}">Delete</button>
